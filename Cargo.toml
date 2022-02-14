@@ -1,0 +1,75 @@
+[package]
+name = "meshopt"
+version = "0.1.9"
+authors = ["Graham Wihlidal <graham@wihlidal.ca>"]
+description = "Rust ffi bindings and idiomatic wrapper for mesh optimizer"
+homepage = "https://github.com/gwihlidal/meshopt-rs"
+repository = "https://github.com/gwihlidal/meshopt-rs"
+documentation = "https://docs.rs/meshopt"
+readme = "README.md"
+keywords = ["mesh", "optimize", "cache", "3d", "rendering"]
+categories = ["rendering", "rendering::engine", ]
+license = "MIT/Apache-2.0"
+build = "build.rs"
+include = [
+    "src/*.rs",
+    "gen/bindings.rs",
+    "build.rs",
+    "Cargo.toml",
+    "vendor/src/meshoptimizer.h",
+    "vendor/src/allocator.cpp",
+    "vendor/src/clusterizer.cpp",
+    "vendor/src/indexcodec.cpp",
+    "vendor/src/indexgenerator.cpp",
+    "vendor/src/overdrawanalyzer.cpp",
+    "vendor/src/overdrawoptimizer.cpp",
+    "vendor/src/simplifier.cpp",
+    "vendor/src/spatialorder.cpp",
+    "vendor/src/stripifier.cpp",
+    "vendor/src/vcacheanalyzer.cpp",
+    "vendor/src/vcacheoptimizer.cpp",
+    "vendor/src/vertexcodec.cpp",
+    "vendor/src/vfetchanalyzer.cpp",
+    "vendor/src/vfetchoptimizer.cpp",
+    "include_wasm32/*.h",
+]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[badges]
+travis-ci = { repository = "gwihlidal/meshopt-rs" }
+maintenance = { status = "actively-developed" }
+
+[dependencies]
+float-cmp = "0.5.3"
+failure = "0.1.6"
+wasm-bindgen = "0.2"
+
+[build-dependencies]
+cc = { version = "1.0.46" }
+
+[build-dependencies.bindgen]
+version = "0.51.1"
+optional = true
+
+[dev-dependencies]
+tobj = "0.1.11"
+miniz_oxide = "0.3.5"
+rand = "0.7.2"
+libc = "0.2.65"
+structopt = "0.3.3"
+memoffset = "0.5.2"
+
+[dev-dependencies.gltf]
+version = "0.14.0"
+features = ["extras", "names"]
+
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1
+
+[features]
+generate_bindings=["bindgen"]
